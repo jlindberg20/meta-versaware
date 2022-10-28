@@ -20,7 +20,7 @@ RDEPENDS_${PN} = " \
 "
 
 SRCBRANCH = "test"
-SRCREV = "02cce0c6c8a7903ccd9208cb551e18166a2bc51f"
+SRCREV = "3fb260dd027ea5921d341a4f5737dc4d1787d374"
 
 # Clone private github repository using ssh
 # Requires your public ssh key to be added to your github account
