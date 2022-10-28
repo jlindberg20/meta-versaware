@@ -41,4 +41,10 @@ PV = "vw-${SRCPV}"
 
 inherit qt6-qmake
 
-FILES_${PN} = "/opt/VersaWareProject/bin/VersaWareProject"
+do_install_append() {
+    install -m 0755 -d ${D}${bindir}
+    cd ${D}
+    ln -s /opt/VersaWareProject/bin/VersaWareProject ${D}${bindir}/b2qt
+}
+
+FILES_${PN} = "/opt/VersaWareProject/bin/VersaWareProject ${bindir}/b2qt"
