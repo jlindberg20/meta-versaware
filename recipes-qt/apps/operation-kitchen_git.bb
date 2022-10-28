@@ -34,20 +34,11 @@ QT_GIT = "git:///home/${USER}/versaware/OperationKitchen;protocol=file"
 
 SRC_URI = " \
     ${QT_GIT};branch=${SRCBRANCH}; \
-    file://operation-kitchen.service \
 "
 
 S = "${WORKDIR}/git/VersaWareProject"
 PV = "vw-${SRCPV}"
 
-inherit qt6-qmake systemd
-
-do_install_append() {
-    install -m 0755 -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/operation-kitchen.service ${D}${systemd_unitdir}/system/
-}
+inherit qt6-qmake
 
 FILES_${PN} = "/opt/VersaWareProject/bin/VersaWareProject"
-
-SYSTEMD_AUTO_ENABLE = "enable"
-SYSTEMD_SERVICE_${PN} = "operation-kitchen.service"
