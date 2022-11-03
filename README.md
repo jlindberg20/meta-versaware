@@ -63,6 +63,79 @@ Follow the guide here to build a recovery sd card: https://variwiki.com/index.ph
 
 After booting this sd card, run '# install_yocto.sh' to install to eMMC.
 
+# Program image to eMMC using U-Boot UUU:
+
+eMMC can be programmed by connecting a USB cable between the versaware type c
+connector and the host computer:
+
+1. Connect USB cable to PC
+2. Interrupt the boot process in U-Boot and run `ums 0 mmc 2`
+3. On host computer, use dmesg to determine the new device node and run:
+```
+ $ zcat tmp/deploy/images/imx8mn-var-som/b2qt-embedded-qt6-image-imx8mn-var-som.wic.gz | sudo dd of=/dev/sdX bs=1M && sync
+```
+4. Reset the board to run the new image
+
 # Updating the kernel
 
 To update the Linux kernel, change the commit id, branch, and/or git repository in [recipes-kernel/linux/linux-variscite_5.4.bbappend](recipes-kernel/linux/linux-variscite_5.4.bbappend)
+
+# Hardware API
+
+## USB OTG
+
+The USB OTG connector is configured for peripheral mode in both U-Boot and Linux.
+To use it, plug a USB Type C cable from your host computer to the carrier board.
+
+### USB OTG U-Boot
+
+In U-Boot, you can access and program the eMMC using:
+
+```
+u-boot> ums 0 mmc 2
+```
+
+On your host computer, look for a new device /dev/sdX to appear.
+
+
+### USB OTG Linux
+
+In Linux, you can use an ethernet or mass storage gadgets to access the device.
+For more information, see: https://variwiki.com/index.php?title=DART-MX8M_USB_OTG&release=mx8mn-b2qt-hardknott-5.10.72_2.2.1-v1.0#Mass_Storage_Device
+
+## LEDs
+
+LEDs are controlled using /sys/class/leds. For example:
+
+```
+# echo 1 > /sys/class/leds/led1/brightness
+# echo 0 > /sys/class/leds/led1/brightness
+# echo 1 > /sys/class/leds/led2/brightness
+# echo 0 > /sys/class/leds/led2/brightness
+```
+
+## Buzzer
+
+The buzzer is controlled using /sys/class/pwm:
+
+```
+# echo 0 > /sys/class/pwm/pwmchip0/export
+# echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
+# echo 500000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+# echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+# echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable
+```
+
+## User Button
+
+Use evtest utility. For more information, see https://variwiki.com/index.php?title=IMX_UserButtons
+
+## MCP3221 Battery Monitor
+
+Usage:
+
+```
+# gpioset gpiochip3 31=1
+# cat /sys/bus/i2c/drivers/mcp3021/1-004e/in0_input
+# gpioset gpiochip3 31=0
+```
