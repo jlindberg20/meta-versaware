@@ -139,3 +139,20 @@ Usage:
 # cat /sys/bus/i2c/drivers/mcp3021/1-004e/in0_input
 # gpioset gpiochip3 31=0
 ```
+
+## MAX8808 Charger
+
+GPIO will be controlled by user application. Use libgpiod to read/write
+these lines:
+
+| NET          | J1 | PAD        | pinctrl                            | gpiochip | gpio pin | i/o   | usage                  |
+|--------------|----|------------|------------------------------------|----------|----------|-------|------------------------|
+| CHG_Iset     | 40 | GPIO1_IO13 | MX8MN_IOMUXC_GPIO1_IO13_GPIO1_IO13 | 0        | 13       | out   | gpioset gpiochip0 13=1 |
+| CHG_ACOK     | 52 | SAI3_TXC   | MX8MN_IOMUXC_SAI3_TXC_GPIO5_IO0    | 4        | 0        | input | gpioget gpiochip4 0    |
+| CHG_EN       | 51 | SAI3_RXD   | MX8MN_IOMUXC_SAI3_RXD_GPIO4_IO30   | 3        | 30       | out   | gpioset gpiochip2 30=1 |
+| CHG_CHGstate | 50 | SAI3_RXC/  | MX8MN_IOMUXC_SAI3_RXC_GPIO4_IO29   | 3        | 29       | input | gpioget gpiochip3 29   |
+
+## HX711 Load Cell
+
+Usage:
+$ cat /sys/bus/iio/devices/iio\:device0/in_voltage0_raw
