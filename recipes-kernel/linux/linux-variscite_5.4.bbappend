@@ -1,5 +1,5 @@
 SRCBRANCH = "5.4-2.1.x-imx_var01-vw-carrier"
-SRCREV = "dafd204212f76bf01dd96031baa0f91ea0745ca7"
+SRCREV = "913eb6bf8affc7832bcace8548deb481d490bf72"
 KERNEL_SRC = "git://github.com/nsdrude-varigit/linux-imx;protocol=https"
 
 # Override to local directory for developmentdd
