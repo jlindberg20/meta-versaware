@@ -132,12 +132,35 @@ Use evtest utility. For more information, see https://variwiki.com/index.php?tit
 
 ## MCP3221 Battery Monitor
 
-Usage:
+**Usage:**
 
 ```
 # gpioset gpiochip3 31=1
 # cat /sys/bus/i2c/drivers/mcp3021/1-004e/in0_input
 # gpioset gpiochip3 31=0
+```
+
+**Troubleshooting**
+
+Verify i2c-device 0x4e:
+
+```
+root@b2qt-imx8mn-var-som:~# i2cdetect -y 1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- UU -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --
+```
+Normal dmesg logs:
+
+```
+root@b2qt-imx8mn-var-som:~# dmesg | grep -i mcp
+[    1.038397] mcp3021 1-004e: hwmon_device_register() is deprecated. Please convert the driver to use hwmon_device_register_with_info().
 ```
 
 ## MAX8808 Charger
@@ -154,5 +177,7 @@ these lines:
 
 ## HX711 Load Cell
 
-Usage:
+**Usage:**
+```
 $ cat /sys/bus/iio/devices/iio\:device0/in_voltage0_raw
+```
